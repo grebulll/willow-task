@@ -58,7 +58,7 @@ All committed and given to Claude Code as context:
 - **`storage.ts`.** Claude wrote about 60 lines of field-by-field validation of the saved data, which had to be updated for every new answer. I found it when I asked how many files a new payload field touches, and I cut it down to a plain `JSON.parse` in a try/catch.
 - **Too much code to review.** Partway through, Claude had produced more code (context, provider, payload, storage, steps, routing) than I could properly review in the time, with no real screen built yet. I stopped, said it was too complex, and cut scope: plain screens, fewer UI tests, and the cuts listed in the README.
 - **Smaller ones:**
-  - Claude copied the brief's income ranges with their gaps, and only flagged them later.
+  - **Income ranges.** The gap review caught only one of the three problems (no option for $200,000–$200,999). Claude missed the other two (no option for $500,001–$500,999, and $1,000,000 in two options) and copied them into `steps.ts`. It noticed them straight after, and they were fixed before the first commit.
   - Claude left a stray type cast in a test.
   - Claude used a wrong MUI icon name.
   - Claude misread "start building the UI" and started mixing routing with the first screen; I stopped it and asked for routing first.
