@@ -24,4 +24,3 @@ export const COUNTRIES = [
 export type CountryCode = (typeof COUNTRIES)[number]['code']
 
 export const ELIGIBLE_TAX_RESIDENCES = ['US'] as const satisfies readonly CountryCode[]
-export type EligibleTaxResidence = (typeof ELIGIBLE_TAX_RESIDENCES)[number]

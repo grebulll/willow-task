@@ -1,9 +1,9 @@
 import { getBackPath, getNextPath, getRedirect } from './navigation'
-import { FLOW_STEPS, NOT_ELIGIBLE_STEP, type Step } from './steps'
+import { FLOW, NOT_ELIGIBLE_STEP, type Step } from './steps'
 import type { OnboardingDraft } from './types'
 
 function step(id: string): Step {
-  const found = [...FLOW_STEPS, NOT_ELIGIBLE_STEP].find((s) => s.id === id)
+  const found = [...FLOW, NOT_ELIGIBLE_STEP].find((s) => s.id === id)
   if (!found) throw new Error(`No step ${id}`)
   return found
 }

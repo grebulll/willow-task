@@ -1,5 +1,12 @@
 import { COUNTRIES } from './countries'
-import { FLOW, NOT_ELIGIBLE_STEP, firstUnansweredStep, getProgress, isQuestionStep } from './steps'
+import {
+  FLOW,
+  NOT_ELIGIBLE_STEP,
+  firstUnansweredStep,
+  getProgress,
+  isQuestionStep,
+  type FinalStep,
+} from './steps'
 import {
   EMPLOYMENT_STATUSES,
   HOUSEHOLD_INCOMES,
@@ -40,7 +47,7 @@ describe('FLOW', () => {
     expect(optionValues('citizenships')).toEqual(COUNTRIES.map((c) => c.code))
     expect(optionValues('taxResidence')).toEqual(COUNTRIES.map((c) => c.code))
 
-    const final = FLOW.find((s) => s.kind === 'final')
+    const final = FLOW.find((s): s is FinalStep => s.kind === 'final')
     expect(final?.choices.map((c) => c.value)).toEqual(INVESTMENT_PATHS)
   })
 })

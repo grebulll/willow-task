@@ -1,5 +1,5 @@
 import {
-  FLOW_STEPS,
+  FLOW,
   NOT_ELIGIBLE_STEP,
   firstUnansweredStep,
   isAllowedAnswer,
@@ -8,15 +8,15 @@ import {
 } from './steps'
 import type { OnboardingDraft } from './types'
 
-const FINAL_STEP = FLOW_STEPS[FLOW_STEPS.length - 1]
+const FINAL_STEP = FLOW[FLOW.length - 1]
 
 function indexOfStep(step: Step): number {
-  return FLOW_STEPS.findIndex((s) => s.id === step.id)
+  return FLOW.findIndex((s) => s.id === step.id)
 }
 
 // True when an answer was given but isn't allowed (e.g. a non-US tax residence).
 function hasDisallowedAnswer(draft: OnboardingDraft): boolean {
-  return FLOW_STEPS.some((step) => {
+  return FLOW.some((step) => {
     if (step.kind !== 'select') return false
     const value = draft[step.field]
     return value !== undefined && !isAllowedAnswer(step, value)
@@ -49,12 +49,12 @@ export function getNextPath(step: Step, draft: OnboardingDraft): string | null {
   }
 
   const index = indexOfStep(step)
-  if (index === -1 || index === FLOW_STEPS.length - 1) return null
-  return FLOW_STEPS[index + 1].path
+  if (index === -1 || index === FLOW.length - 1) return null
+  return FLOW[index + 1].path
 }
 
 // Where the back arrow goes. Only question screens have one.
 export function getBackPath(step: Step): string | null {
   if (!isQuestionStep(step)) return null
-  return FLOW_STEPS[indexOfStep(step) - 1].path
+  return FLOW[indexOfStep(step) - 1].path
 }

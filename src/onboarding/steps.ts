@@ -92,7 +92,7 @@ const COUNTRY_OPTIONS: readonly Option<CountryCode>[] = COUNTRIES.map(({ code, n
 }))
 
 // The order of this list is the order of the flow.
-export const FLOW = [
+export const FLOW: readonly Step[] = [
   {
     kind: 'account',
     id: 'account',
@@ -229,7 +229,7 @@ export const FLOW = [
       },
     ],
   },
-] as const satisfies readonly Step[]
+]
 
 // Not part of the linear flow: reached only from tax residence.
 export const NOT_ELIGIBLE_STEP = {
@@ -278,9 +278,7 @@ export function firstUnansweredStep(draft: OnboardingDraft): Step {
   return FLOW.find((step) => !isStepComplete(step, draft)) ?? FLOW[FLOW.length - 1]
 }
 
-// FLOW keeps its literal types for StepId; the helpers only need the wider Step type.
-export const FLOW_STEPS: readonly Step[] = FLOW
-const QUESTION_STEPS: readonly QuestionStep[] = FLOW_STEPS.filter(isQuestionStep)
+const QUESTION_STEPS: readonly QuestionStep[] = FLOW.filter(isQuestionStep)
 
 // "x / y" for question screens; null for screens without a counter.
 export function getProgress(stepId: string): { current: number; total: number } | null {

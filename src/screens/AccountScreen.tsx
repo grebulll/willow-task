@@ -19,10 +19,10 @@ import { useNavigate, useSearchParams } from 'react-router'
 import { ScreenTitle } from '../app/ScreenTitle'
 import { getNextPath } from '../onboarding/navigation'
 import { useOnboarding } from '../onboarding/OnboardingContext'
-import { FLOW_STEPS, type AccountStep } from '../onboarding/steps'
-
-const FINAL_PATH = FLOW_STEPS[FLOW_STEPS.length - 1].path
+import { FLOW, type AccountStep } from '../onboarding/steps'
 import { validateAccount, type AccountErrors, type AccountForm } from './accountValidation'
+
+const FINAL_PATH = FLOW[FLOW.length - 1].path
 
 export function AccountScreen({ step }: { step: AccountStep }) {
   const { draft, password, setAccount, setPassword } = useOnboarding()

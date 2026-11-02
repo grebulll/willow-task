@@ -15,12 +15,12 @@ import { ScreenTitle } from '../app/ScreenTitle'
 import { submitOnboarding } from '../api/onboardingApi'
 import { useOnboarding } from '../onboarding/OnboardingContext'
 import { toPayload } from '../onboarding/payload'
-import { FLOW_STEPS, type FinalStep } from '../onboarding/steps'
+import { FLOW, type FinalStep } from '../onboarding/steps'
 import type { InvestmentPath } from '../onboarding/types'
 
 type Status = 'idle' | 'submitting' | 'error'
 
-const ACCOUNT_PATH = FLOW_STEPS[0].path
+const ACCOUNT_PATH = FLOW[0].path
 
 export function FinalScreen({ step }: { step: FinalStep }) {
   const { draft, password, submitted, markSubmitted } = useOnboarding()
