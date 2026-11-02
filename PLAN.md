@@ -39,7 +39,7 @@ These are the gaps that I thought of after I read the `BRIEF.md` file task. If w
 ## Option cards (A1–A3)
 
 - Picking a card advances. When coming back, the previous pick is shown as selected, and clicking it again advances.
-- Guard against a double-click skipping a screen.
+- Guard against a double-click skipping a screen. (cut, see below)
 - Cards are keyboard accessible and announced as a choice to screen readers.
 
 ## Answers & data
@@ -73,7 +73,7 @@ These are the gaps that I thought of after I read the `BRIEF.md` file task. If w
 - It is never logged; the mock API masks it as `***`.
 - It is cleared from memory after a successful submit.
 - The field uses `autocomplete="new-password"`.
-- After a refresh the password is gone. The final screen then shows a "Re-enter your password to finish" field above the path cards, instead of sending the user back to the account form.
+- After a refresh the password is gone. The final screen then shows a "Re-enter your password to finish" field above the path cards, instead of sending the user back to the account form. (cut, see below)
 
 ## Data model
 

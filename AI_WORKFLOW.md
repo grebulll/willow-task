@@ -1,15 +1,71 @@
-Tools used: Claude Code
+# AI workflow
 
-Prompted claude code to create the project with Vite, React, TypeScript, MUI and also Vitest, to speed up the process.
+## Tools, model and effort
 
-Told claude code that the claude.md has been updated with the new rules
+- **Claude Code** in VS Code, with Opus 5.5. I used `xhigh` effort for the gap review of the brief.
+- **Disclosure:**
+  - After building, I did a review of the repo against the brief's hand-in list. It caught the empty README, missing parts of this file, two contradictions in `PLAN.md`, and a code nit (see below).
 
-Claude code asked if we should remove the two libraries `@testing-library/user-event` and `@mui/icons-material`. I decided we can keep them for now until we reach the testing phase. And we keep `@mui/icons-material` for the back arrow button and the show/hide password icon.
+## Working documents
 
-Prompted claude code to read the `BRIEF.md` and the `PLAN.md` files and list the gaps that I could have missed, with an `extra high` effort.
+All committed and given to Claude Code as context:
 
-# Improvements:
+- `BRIEF.md`: the challenge brief.
+- `PLAN.md`: my plan (stack, steps as data, validation without a library, the first gaps), plus the decisions I made on each gap.
+- `CLAUDE.md`: rules for the AI: the stack, propose a plan before anything complex, work in small steps, ask before adding any library, strict TypeScript with no `any`, and don't commit (I commit myself).
 
-- stricter password and email formats
-- checkbox goes to payload with timestamp, did basic validation by just making sure it is checked to speed up the process.
-- Decided the progress counter should count the whole flow. My opinion is that the user only cares about how much steps are left to finish.
+## Key prompts, in order
+
+1. Set up the project with Vite, React, TypeScript, MUI and Vitest.
+2. Told Claude that `CLAUDE.md` had been updated with the new rules.
+3. Read `BRIEF.md` and `PLAN.md` and list the gaps I could have missed (`xhigh` effort). I answered each gap; the answers went into `PLAN.md`.
+4. Agreed to add a router for the browser back button and URLs.
+5. Propose the TypeScript data model: string-literal unions from `as const` arrays, a draft type with optional fields, a payload type with everything required, and one function from draft to payload. Show the types before writing other code.
+6. The password must be sent to the API: propose a secure way without a separate API.
+7. Implement the state, then the steps as data with the progress and guard helpers, then routing and the screen layout.
+8. Asked how many files adding a new payload item would touch, and said the architecture was too complex for the timebox.
+9. Build the screens: account, welcome + option cards, dropdowns, final screen with the mock API.
+10. Asked to use MSW for the mock API, then changed my mind (see below).
+11. Write the README, then update this file.
+
+## What I kept and what I rejected, and why
+
+**Kept**
+
+- **`@testing-library/user-event` and `@mui/icons-material`.** Claude installed them during setup and later asked if I wanted them removed. I kept `user-event` for the tests and the icons for the back arrow and the show/hide password button.
+- **Triaging the gap list.** Claude listed the gaps; I decided each one myself. For example:
+  - errors show on submit
+  - blank names are rejected
+  - the progress counter covers the whole flow
+  - a non-US tax residence goes to a "not eligible" screen
+  - the citizenship rows can be removed and can't repeat a country
+  - I cut the rest to stay in the timebox
+- **`react-router`.** Claude pointed out that without a router the browser back button and URLs don't work. I agreed to add it.
+- Claude's suggestion of a maximum of 3 citizenships, when I didn't know what limit to use.
+
+**Rejected or reworked**
+
+- **Payload strictness.** Claude made the payload type stricter than the draft (US-only tax residence, non-empty citizenship list). I asked for the payload to follow the draft.
+- **Password.** My plan kept the password out of the payload; I decided it has to be sent. Claude proposed how to do it safely (memory only, never saved or logged, cleared after submit) and advised against hashing in the browser.
+- **Consent record.** Claude suggested sending it with a timestamp; I kept it to a checked checkbox to save time.
+- **Extendability refactor.** Claude offered a refactor so a new answer touches fewer files. I kept the code as it was and wrote down the trade-off.
+- **MSW.** I asked for MSW to mock the API, then reverted it: a dependency, a service-worker file and extra setup in two places was too much for what a promise with a delay already did.
+
+## Where the AI got things wrong
+
+- **`storage.ts`.** Claude wrote about 60 lines of field-by-field validation of the saved data, which had to be updated for every new answer. I found it when I asked how many files a new payload field touches, and I cut it down to a plain `JSON.parse` in a try/catch.
+- **Too much code to review.** Partway through, Claude had produced more code (context, provider, payload, storage, steps, routing) than I could properly review in the time, with no real screen built yet. I stopped, said it was too complex, and cut scope: plain screens, fewer UI tests, and the cuts listed in the README.
+- **Smaller ones:**
+  - Claude copied the brief's income ranges with their gaps, and only flagged them later.
+  - Claude left a stray type cast in a test.
+  - Claude used a wrong MUI icon name.
+  - Claude misread "start building the UI" and started mixing routing with the first screen; I stopped it and asked for routing first.
+- **Review catch.** `const FINAL_PATH` in `AccountScreen.tsx` ended up between two imports. It worked, but looked sloppy; fixed after the review.
+
+## AI-generated vs hand-written
+
+Most of the code was generated by Claude Code. I made the decisions in `PLAN.md`, reviewed the screen slices, and cut or changed what didn't fit, such as the `storage.ts` validation, the payload type, and MSW.
+
+- **Generated by Claude Code:** most of the code and tests, built in small slices.
+- **Mine:** `CLAUDE.md`, the original `PLAN.md`, every decision on the gaps, and the review of the screen slices before committing. The core (context, provider, storage, steps) was generated faster than I could fully review in the time. I'm reading through it after submitting.
+- **The docs:** `README.md` and this file were drafted by Claude Code from my notes and decisions, then reviewed and edited by me. The early sections of `PLAN.md` are in my own words.
