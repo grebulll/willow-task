@@ -82,7 +82,8 @@ These are the gaps that I thought of after I read the `BRIEF.md` file task. If w
 - `OnboardingPayload`: the draft with every field required, plus `account.password` and `investmentPath`.
 - `toPayload(draft, password, investmentPath)` returns `null` if anything is missing, citizenships is empty or the password is empty.
 - The "not eligible" rule for tax residence is checked when leaving B2, not in the payload type. `ELIGIBLE_TAX_RESIDENCES` lists the allowed countries.
-- Known trade-off: adding a new answer touches 4 files (`types.ts`, `steps.ts`, `payload.ts`, `storage.ts`). The compiler catches a missed `payload.ts`, but not a missed `storage.ts`: the answer would be silently dropped on refresh and the user sent back to that question. A test in `storage.test.ts` catches that instead: it builds a fully answered draft from the step list and checks it survives a reload. Kept as is for the timebox; with more time, `toPayload` and `parseState` would loop over the question steps instead of listing fields by hand, bringing it down to 2 files (`types.ts`, `steps.ts`).
+- Adding a new answer touches 3 files (`types.ts`, `steps.ts`, `payload.ts`); the compiler catches a missed `payload.ts`. With more time, `toPayload` would loop over the question steps instead of listing fields by hand, bringing it down to 2 files.
+- `storage.ts` trusts the saved shape (plain `JSON.parse` + try/catch). It started as a field-by-field check of every saved value, but that was ~60 lines that had to be updated for every new answer; cut for the timebox. Trade-off: data edited by hand in sessionStorage isn't rejected. Only `saveState` writes it, so normal use is safe.
 
 ## Defaults (not discussed, smallest sensible choice)
 
@@ -96,3 +97,8 @@ These are the gaps that I thought of after I read the `BRIEF.md` file task. If w
 - Contradicting answers (e.g. low net worth + qualified purchaser "Yes") are allowed.
 - No conflict-of-interest questions, and no employer/occupation follow-up after "Employed".
 - No consent record in the payload.
+- At ~1h45 into the 2 hours, the core (data model, state, steps, routing) was done but no real screens. Remaining screens are built as plainly as possible, with these cuts:
+  - No responsive polish beyond MUI defaults.
+  - No double-click guard on the option cards.
+  - No "Re-enter your password" field: after a refresh the password is gone, so the user is sent back to the account form to type it again.
+  - Few UI tests: the logic (navigation, payload, state) is unit tested; screens get at most one test each.

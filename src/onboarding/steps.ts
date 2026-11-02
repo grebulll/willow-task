@@ -238,8 +238,6 @@ export const NOT_ELIGIBLE_STEP = {
     "Willow Wealth's investments are currently only available for U.S. taxpayers. If your tax residence is the United States, go back and update your answer.",
 } as const satisfies NotEligibleStep
 
-export type StepId = (typeof FLOW)[number]['id'] | typeof NOT_ELIGIBLE_STEP.id
-
 // ---- Helpers ----
 
 export function isQuestionStep(step: Step): step is QuestionStep {
@@ -276,11 +274,11 @@ export function firstUnansweredStep(draft: OnboardingDraft): Step {
 }
 
 // FLOW keeps its literal types for StepId; the helpers only need the wider Step type.
-const FLOW_STEPS: readonly Step[] = FLOW
+export const FLOW_STEPS: readonly Step[] = FLOW
 const QUESTION_STEPS: readonly QuestionStep[] = FLOW_STEPS.filter(isQuestionStep)
 
 // "x / y" for question screens; null for screens without a counter.
-export function getProgress(stepId: StepId): { current: number; total: number } | null {
+export function getProgress(stepId: string): { current: number; total: number } | null {
   const index = QUESTION_STEPS.findIndex((step) => step.id === stepId)
   if (index === -1) return null
   return { current: index + 1, total: QUESTION_STEPS.length }
