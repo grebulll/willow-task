@@ -24,7 +24,7 @@ Also worth trying: refresh mid-flow (answers are kept), pick a tax residence oth
 
 ## Time spent
 
-About two hours of focused work, spread over the afternoon with breaks. Below is what's done, what I cut because of time, and what I'd do next.
+About two hours of focused building, spread over the afternoon with breaks, plus a short cleanup and the docs afterwards.
 
 ## Main decisions
 
@@ -33,7 +33,7 @@ The brief leaves gaps on purpose. The full list and my reasoning is in [PLAN.md]
 - **The flow is data.** Every screen's wording, options and order live in `src/onboarding/steps.ts`; routes, progress numbers and the route guard are computed from it.
 - **Typed answers.** Every fixed choice is a string-literal union built from an `as const` array, and answers are stored as IDs, not label text. A draft type (all optional) becomes the payload type (all required) through one function, `toPayload`.
 - **Routing.** Each step has its own URL, so the browser back button works. A guard stops users skipping ahead and locks the flow after a successful submit.
-- **Progress counter** covers the whole flow (1/6 … 6/6): I think the user mostly cares about how many steps are left.
+- **Progress counter** counts the six questions (1/6 … 6/6): I think the user mostly cares about how many steps are left.
 - **Password.** The brief allows one API, so the password is sent in the onboarding payload. It's kept in memory only, never saved to `sessionStorage` or logged, and cleared after submit. A refresh loses it, so the user is sent back to the account form to re-enter it.
 - **Income ranges.** The brief's options leave $200,000–$200,999 and $500,001–$500,999 uncovered and put $1,000,000 in two options. I fixed the labels; in a real team I'd confirm with product/compliance first.
 - **Tax residence.** A non-US answer leads to a "not eligible" screen.

@@ -4,7 +4,9 @@
 
 - **Claude Code** in VS Code, with Opus 5.5. I used `xhigh` effort for the gap review of the brief.
 - **Disclosure:**
-  - After building, I did a review of the repo against the brief's hand-in list. It caught the empty README, missing parts of this file, two contradictions in `PLAN.md`, and a code nit (see below).
+  - Over the weekend, before the timer, I discussed the brief with Claude (chat): how the password should be handled, the general shape of a typed data model, whether to use MUI, and keeping the steps extendable. This was approach only; no code was written.
+  - After building, I asked Claude (chat) to review the repo against the brief's hand-in list. It caught the empty README, missing parts of this file, two contradictions in PLAN.md, and a code nit.
+  - After that review and the timebox, I made one small cleanup with Claude Code (commit f81552a, about 10 minutes): one FLOW list instead of two, an unused type removed, and the import order fixed.
 
 ## Working documents
 
@@ -36,7 +38,7 @@ All committed and given to Claude Code as context:
 - **Triaging the gap list.** Claude listed the gaps; I decided each one myself. For example:
   - errors show on submit
   - blank names are rejected
-  - the progress counter covers the whole flow
+  - the progress counter counts the six questions
   - a non-US tax residence goes to a "not eligible" screen
   - the citizenship rows can be removed and can't repeat a country
   - I cut the rest to stay in the timebox
@@ -46,7 +48,7 @@ All committed and given to Claude Code as context:
 **Rejected or reworked**
 
 - **Payload strictness.** Claude made the payload type stricter than the draft (US-only tax residence, non-empty citizenship list). I asked for the payload to follow the draft.
-- **Password.** My plan kept the password out of the payload; I decided it has to be sent. Claude proposed how to do it safely (memory only, never saved or logged, cleared after submit) and advised against hashing in the browser.
+- **Password.** My first thought was to keep the password out of the payload; I decided it has to be sent. Claude proposed how to do it safely (memory only, never saved or logged, cleared after submit) and advised against hashing in the browser.
 - **Consent record.** Claude suggested sending it with a timestamp; I kept it to a checked checkbox to save time.
 - **Extendability refactor.** Claude offered a refactor so a new answer touches fewer files. I kept the code as it was and wrote down the trade-off.
 - **MSW.** I asked for MSW to mock the API, then reverted it: a dependency, a service-worker file and extra setup in two places was too much for what a promise with a delay already did.

@@ -31,7 +31,7 @@ These are the gaps that I thought of after I read the `BRIEF.md` file task. If w
 ## Navigation & progress
 
 - Add a router so the browser back button and URLs work. Visiting a step whose earlier steps aren't answered redirects to the first unanswered step.
-- Progress counter counts the whole flow: the 6 question screens show 1/6 … 6/6. The account screen, the welcome screens and the final screen have no counter.
+- Progress counter counts the six questions: the 6 question screens show 1/6 … 6/6. The account screen, the welcome screens and the final screen have no counter.
 - Back on A1 goes to Welcome A. The user can still return to the account form (browser back), with their values kept.
 - No back arrow on the two welcome screens or the final screen.
 - After a successful submit the flow is locked: earlier steps redirect to the final screen.
