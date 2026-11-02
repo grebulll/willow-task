@@ -54,16 +54,20 @@ describe('routes', () => {
     ).toBeInTheDocument()
   })
 
-  it('moves to the next step on Continue', async () => {
-    renderAt('/household-income', { draft: { account }, submitted: false })
+  it('moves from a welcome screen to its first question on Continue', async () => {
+    renderAt('/welcome', { draft: { account }, submitted: false })
     await userEvent.click(await screen.findByRole('button', { name: 'Continue' }))
-    expect(await screen.findByRole('heading', { name: 'What is your net worth?' })).toBeInTheDocument()
+    expect(
+      await screen.findByRole('heading', { name: 'What is your annual household income?' }),
+    ).toBeInTheDocument()
   })
 
   it('focuses the heading of the new screen', async () => {
-    renderAt('/household-income', { draft: { account }, submitted: false })
+    renderAt('/welcome', { draft: { account }, submitted: false })
     await userEvent.click(await screen.findByRole('button', { name: 'Continue' }))
-    expect(await screen.findByRole('heading', { name: 'What is your net worth?' })).toHaveFocus()
+    expect(
+      await screen.findByRole('heading', { name: 'What is your annual household income?' }),
+    ).toHaveFocus()
   })
 
   it('locks the flow on the final screen after submitting', async () => {

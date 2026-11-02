@@ -3,6 +3,8 @@ import { getRedirect } from '../onboarding/navigation'
 import { useOnboarding } from '../onboarding/OnboardingContext'
 import type { Step } from '../onboarding/steps'
 import { AccountScreen } from '../screens/AccountScreen'
+import { CardsScreen } from '../screens/CardsScreen'
+import { InterstitialScreen } from '../screens/InterstitialScreen'
 import { Layout } from './Layout'
 import { PlaceholderScreen } from './PlaceholderScreen'
 
@@ -10,6 +12,10 @@ function StepScreen({ step }: { step: Step }) {
   switch (step.kind) {
     case 'account':
       return <AccountScreen step={step} />
+    case 'interstitial':
+      return <InterstitialScreen step={step} />
+    case 'cards':
+      return <CardsScreen step={step} />
     default:
       return <PlaceholderScreen step={step} />
   }
