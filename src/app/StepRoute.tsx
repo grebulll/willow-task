@@ -4,12 +4,12 @@ import { useOnboarding } from '../onboarding/OnboardingContext'
 import type { Step } from '../onboarding/steps'
 import { AccountScreen } from '../screens/AccountScreen'
 import { CardsScreen } from '../screens/CardsScreen'
+import { FinalScreen } from '../screens/FinalScreen'
 import { InterstitialScreen } from '../screens/InterstitialScreen'
 import { MultiSelectScreen } from '../screens/MultiSelectScreen'
 import { NotEligibleScreen } from '../screens/NotEligibleScreen'
 import { SelectScreen } from '../screens/SelectScreen'
 import { Layout } from './Layout'
-import { PlaceholderScreen } from './PlaceholderScreen'
 
 function StepScreen({ step }: { step: Step }) {
   switch (step.kind) {
@@ -25,8 +25,8 @@ function StepScreen({ step }: { step: Step }) {
       return <MultiSelectScreen step={step} />
     case 'notEligible':
       return <NotEligibleScreen step={step} />
-    default:
-      return <PlaceholderScreen step={step} />
+    case 'final':
+      return <FinalScreen step={step} />
   }
 }
 

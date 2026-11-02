@@ -1,6 +1,7 @@
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import {
+  Alert,
   Box,
   Button,
   Checkbox,
@@ -14,16 +15,21 @@ import {
   Typography,
 } from '@mui/material'
 import { useState, type FormEvent } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate, useSearchParams } from 'react-router'
 import { ScreenTitle } from '../app/ScreenTitle'
 import { getNextPath } from '../onboarding/navigation'
 import { useOnboarding } from '../onboarding/OnboardingContext'
-import type { AccountStep } from '../onboarding/steps'
+import { FLOW_STEPS, type AccountStep } from '../onboarding/steps'
+
+const FINAL_PATH = FLOW_STEPS[FLOW_STEPS.length - 1].path
 import { validateAccount, type AccountErrors, type AccountForm } from './accountValidation'
 
 export function AccountScreen({ step }: { step: AccountStep }) {
   const { draft, password, setAccount, setPassword } = useOnboarding()
   const navigate = useNavigate()
+  // Set by the final screen when a refresh lost the password.
+  const [searchParams] = useSearchParams()
+  const resuming = searchParams.has('resume')
 
   // Prefilled when the user comes back. The password is only there if the page wasn't refreshed.
   const [form, setForm] = useState<AccountForm>({
@@ -53,7 +59,8 @@ export function AccountScreen({ step }: { step: AccountStep }) {
     }
     setAccount(account)
     setPassword(form.password)
-    const next = getNextPath(step, { ...draft, account })
+    // When resuming, everything else is already answered: go straight back to the final screen.
+    const next = resuming ? FINAL_PATH : getNextPath(step, { ...draft, account })
     if (next) navigate(next)
   }
 
@@ -64,6 +71,13 @@ export function AccountScreen({ step }: { step: AccountStep }) {
           <ScreenTitle>{step.title}</ScreenTitle>
           <Typography color="text.secondary">{step.description}</Typography>
         </Box>
+
+        {resuming && (
+          <Alert severity="info">
+            For your security, your password isn't kept when the page is refreshed. Please re-enter it
+            to finish.
+          </Alert>
+        )}
 
         <TextField
           label="First name"
