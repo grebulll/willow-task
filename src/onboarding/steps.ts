@@ -70,6 +70,9 @@ export type FinalStep = StepBase & {
 
 export type NotEligibleStep = StepBase & {
   kind: 'notEligible'
+  // Lets the user go back and change the answer that made them ineligible.
+  actionLabel: string
+  actionPath: string
 }
 
 export type QuestionStep = CardsStep | SelectStep | MultiSelectStep
@@ -236,6 +239,8 @@ export const NOT_ELIGIBLE_STEP = {
   title: "We can't open your account yet",
   description:
     "Willow Wealth's investments are currently only available for U.S. taxpayers. If your tax residence is the United States, go back and update your answer.",
+  actionLabel: 'Update tax residence',
+  actionPath: '/tax-residence',
 } as const satisfies NotEligibleStep
 
 // ---- Helpers ----

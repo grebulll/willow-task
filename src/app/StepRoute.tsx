@@ -5,6 +5,9 @@ import type { Step } from '../onboarding/steps'
 import { AccountScreen } from '../screens/AccountScreen'
 import { CardsScreen } from '../screens/CardsScreen'
 import { InterstitialScreen } from '../screens/InterstitialScreen'
+import { MultiSelectScreen } from '../screens/MultiSelectScreen'
+import { NotEligibleScreen } from '../screens/NotEligibleScreen'
+import { SelectScreen } from '../screens/SelectScreen'
 import { Layout } from './Layout'
 import { PlaceholderScreen } from './PlaceholderScreen'
 
@@ -16,6 +19,12 @@ function StepScreen({ step }: { step: Step }) {
       return <InterstitialScreen step={step} />
     case 'cards':
       return <CardsScreen step={step} />
+    case 'select':
+      return <SelectScreen step={step} />
+    case 'multiSelect':
+      return <MultiSelectScreen step={step} />
+    case 'notEligible':
+      return <NotEligibleScreen step={step} />
     default:
       return <PlaceholderScreen step={step} />
   }
